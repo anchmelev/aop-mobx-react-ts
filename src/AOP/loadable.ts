@@ -1,4 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
+import { createDecorator } from "./createDecorator";
 
 type KeyBooleanValue = {
   [key: string]: boolean;
@@ -23,18 +24,13 @@ export abstract class Loadable<T> implements ILoadable<T> {
   }
 }
 
-export const loadable =
-  <T>(keyLoading: keyof T) =>
-  (target: ILoadable<T>, key: string, descriptor: PropertyDescriptor) => {
-    const originalMethod = descriptor.value;
-    descriptor.value = async function (...args: any[]) {
-      const _this = this as ILoadable<T>;
-      try {
-        if (_this.loading[keyLoading]) return;
-        _this.setLoading(keyLoading, true);
-        return await originalMethod.call(this, ...args);
-      } finally {
-        _this.setLoading(keyLoading, false);
-      }
-    };
-  };
+export const loadable = <T>(keyLoading: keyof T) =>
+  createDecorator<ILoadable<T>>(async (self, method, ...args) => {
+    try {
+      if (self.loading[keyLoading]) return;
+      self.setLoading(keyLoading, true);
+      return await method.call(self, ...args);
+    } finally {
+      self.setLoading(keyLoading, false);
+    }
+  });
