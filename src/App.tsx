@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { BarChartOutlined } from "@ant-design/icons";
+import { ContainerOutlined, ExclamationOutlined, Loading3QuartersOutlined, NotificationOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import LoadingPage from "./LoadingPage";
 import ErrorHandlePage from "./ErrorHandlePage";
@@ -42,22 +42,22 @@ const App = () => {
           items={[
             {
               key: Page.loading,
-              icon: <BarChartOutlined />,
+              icon: <Loading3QuartersOutlined />,
               label: "Loading",
             },
             {
               key: Page.errorHandle,
-              icon: <BarChartOutlined />,
+              icon: <ExclamationOutlined />,
               label: "Error handle",
             },
             {
               key: Page.notification,
-              icon: <BarChartOutlined />,
+              icon: <NotificationOutlined />,
               label: "Notification",
             },
             {
               key: Page.log,
-              icon: <BarChartOutlined />,
+              icon: <ContainerOutlined />,
               label: "Log",
             },
           ]}
